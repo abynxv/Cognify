@@ -24,6 +24,16 @@ Upload documents → Ingest into vector DB → Query with streaming LLM response
 
 ---
 
+## How Docker fits in
+
+This project uses Docker only for the **infrastructure** — Postgres, Qdrant, and Redis. These are databases/services that are painful to install manually, so Docker handles them in isolated containers.
+
+The FastAPI app itself runs directly on your machine (with `uvicorn`), so you get hot-reload when you edit code. Docker Compose is configured in `docker-compose.yml` — `docker compose up -d postgres qdrant redis` starts just the three services and leaves ports `5432`, `6333`, and `6379` available on `localhost` for the app to connect to.
+
+If you want to run everything in Docker (app included), `docker compose up -d` builds and starts all four services — but you lose hot-reload.
+
+---
+
 ## Quick Start
 
 ### 1. Clone & configure

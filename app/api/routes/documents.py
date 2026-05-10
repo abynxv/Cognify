@@ -1,6 +1,6 @@
 import uuid
 
-from fastapi import APIRouter, BackgroundTasks, Depends, File, Request, UploadFile, status
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Request, Response, UploadFile, status
 
 from app.api.dependencies import get_document_service, get_ingestion_service
 from app.core.config import settings
@@ -31,6 +31,7 @@ router = APIRouter(prefix="/documents", tags=["Documents"])
 @limiter.limit(settings.RATE_LIMIT_UPLOAD)
 async def upload_document(
     request: Request,
+    response: Response,
     file: UploadFile = File(...),
     doc_service: DocumentService = Depends(get_document_service),
 ) -> UploadResponse:

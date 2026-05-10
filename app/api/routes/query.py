@@ -1,9 +1,8 @@
-from __future__ import annotations
-
 import json
 import time
 import uuid
 from collections.abc import AsyncGenerator
+from typing import Any
 
 from fastapi import APIRouter, Depends, Request, status
 from fastapi.responses import StreamingResponse
@@ -43,7 +42,7 @@ async def query(
     request: Request,
     body: QueryRequest,
     rag_service: RAGService = Depends(get_rag_service),
-) -> StreamingResponse | QueryResponse:
+) -> Any:
     if body.stream:
         return StreamingResponse(
             _sse_generator(body, rag_service),

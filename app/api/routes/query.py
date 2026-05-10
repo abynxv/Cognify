@@ -4,7 +4,7 @@ import uuid
 from collections.abc import AsyncGenerator
 from typing import Any
 
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -40,6 +40,7 @@ logger = get_logger(__name__)
 @limiter.limit(settings.RATE_LIMIT_QUERY)
 async def query(
     request: Request,
+    response: Response,
     body: QueryRequest,
     rag_service: RAGService = Depends(get_rag_service),
 ) -> Any:
